@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "package": "me.zipestudio.autojumpfix.mixin",
+    "refmap": "${mod_id}.refmap.json",
+    "compatibilityLevel": "JAVA_${java}",
+    "mixins": [
+    ],
+    "client": [
+        "ClientPlayerEntityMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
