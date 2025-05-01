@@ -45,7 +45,7 @@
 
 <p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
 <div align="center">
-<video src="https://raw.githubusercontent.com/ZipeStudio/AutoJumpFix/refs/heads/master/img/showcase.mp4" width="1000px" alt=""/>
+<video src="https://github.com/user-attachments/assets/39155ea1-8ff9-4a62-89f3-b500a9e6e3e8" width="1000px" alt=""/>
 </div>
 
 ---
