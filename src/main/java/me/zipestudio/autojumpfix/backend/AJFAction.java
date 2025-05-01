@@ -20,13 +20,13 @@ public class AJFAction {
         if (!player.input.hasForwardMovement()) return false;
         float jumpHeight = 1.2F;
         if (player.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
-            jumpHeight += (float)(player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1) * 0.75F;
+            jumpHeight += (float) (player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1) * 0.75F;
         }
         World world = player.getEntityWorld();
         double bpt = MathHelper.clamp(Math.sqrt((dx * dx) + (dz * dz)), 0.001, 0.8); // Current speed in blocks per tick; Clamped to reasonable values for aproximating next location
         if (bpt < 0.2) bpt *= 0.7; // Fixes ice + iron bar edge case
         Box currentBox = player.getBoundingBox();
-        float yawRad = -player.getYaw(0) * (float)(Math.PI / 180);
+        float yawRad = -player.getYaw(0) * (float) (Math.PI / 180);
         double yawDeltaX = MathHelper.sin(yawRad);
         double yawDeltaZ = MathHelper.cos(yawRad);
         double predictionX = yawDeltaX * bpt * PREDICTION_MULT;
@@ -49,10 +49,18 @@ public class AJFAction {
                     if (jumpTargetShape.isEmpty()) continue;
                     double playerAngle = mcDeg2NormalDeg((yawRad * (-180 / Math.PI)));
                     double ydiff = getCollisionY(angleToDirection(playerAngle).getOpposite(), jumpTargetShape) - player.getY();
-                    if (ydiff > player.getStepHeight() + 0.001 && ydiff < jumpHeight) {
+
+                    float stepHeight;
+                    //? if <1.20 {
+                    /*stepHeight = player.stepHeight;
+                    *///?} else {
+                    stepHeight = player.getStepHeight();
+                    //?}
+
+                    if (ydiff > stepHeight + 0.001 && ydiff < jumpHeight) {
                         double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
                         if (!hasHeadSpace(player, currentBox, jumpHeight, pos)) continue;
-                        if (Math.abs(angleDiff(playerToBlockAngle, playerAngle)) < 10 || Math.floorMod((int)playerAngle, 90) < 10 || Math.floorMod((int)playerAngle, 90) > 80) {
+                        if (Math.abs(angleDiff(playerToBlockAngle, playerAngle)) < 10 || Math.floorMod((int) playerAngle, 90) < 10 || Math.floorMod((int) playerAngle, 90) > 80) {
                             return true;
                         }
                     }
@@ -67,7 +75,12 @@ public class AJFAction {
         int minY = MathHelper.floor(player.getY() + jumpHeight);
         int minZ = MathHelper.floor(Math.min(playerBox.minZ, target.getZ()));
         int maxX = MathHelper.floor(Math.max(playerBox.maxX, target.getX()));
+
+        //? if <=1.21.1 {
+        /*int maxY = MathHelper.floor(player.getY() + playerBox.getYLength() + jumpHeight);
+        *///?} else {
         int maxY = MathHelper.floor(player.getY() + playerBox.getLengthY() + jumpHeight);
+         //?}
         int maxZ = MathHelper.floor(Math.max(playerBox.maxZ, target.getZ()));
 
         BlockPos.Mutable pos = new BlockPos.Mutable();
@@ -134,6 +147,7 @@ public class AJFAction {
 
     /**
      * Gets the diffrence between 2 degree angles
+     *
      * @param a 0 <= a <= 360
      * @param b 0 <= b <= 360
      * @return diffrence
