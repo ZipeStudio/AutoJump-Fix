@@ -38,13 +38,13 @@
 
 > Client-side Fabric mod that fixing annoying AutoJump issues, such as jumping too late and causing you to lose your sprint, or jump when you scrape the corner of a block.
 
-<p style="font-size:30px;font-weight:900;color:#fff">💾 Gif showcase</p>
 <div align="center">
+<p style="font-size:30px;font-weight:900;color:#fff">💾 Gif showcase</p>
 <img src="https://raw.githubusercontent.com/ZipeStudio/AutoJumpFix/refs/heads/master/img/showcase.gif" width="1000px" alt=""/>
 </div>
 
-<p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
 <div align="center">
+<p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
 <video src="https://github.com/user-attachments/assets/39155ea1-8ff9-4a62-89f3-b500a9e6e3e8" width="1000px" alt=""/>
 </div>
 
