@@ -13,12 +13,11 @@ public abstract class ClientPlayerEntityMixin {
     protected abstract boolean shouldAutoJump();
 
 
-    //? if <1.21 {
-    /*@Shadow
-    private int ticksToNextAutojump;
-    *///?} else {
-    @Shadow private int ticksToNextAutoJump;
-    //?}
+    //? if <1.21.2 {
+    @Shadow private int ticksToNextAutojump;
+    //?} else {
+    /*@Shadow private int ticksToNextAutoJump;
+    *///?}
 
     /**
      * @author
@@ -28,11 +27,11 @@ public abstract class ClientPlayerEntityMixin {
     public void autoJump(float dx, float dz) {
         if (this.shouldAutoJump()) {
 
-            //? if <1.21 {
-            /*this.ticksToNextAutojump =
-            *///?} else {
-            this.ticksToNextAutoJump =
-            //?}
+            //? if <1.21.2 {
+            this.ticksToNextAutojump =
+            //?} else {
+            /*this.ticksToNextAutoJump =
+            *///?}
 
             AJFAction.autojumpPlayer((ClientPlayerEntity) (Object) this, dx, dz) ? 1 : 0;
         }

@@ -51,7 +51,7 @@ public class AJFAction {
                     double ydiff = getCollisionY(angleToDirection(playerAngle).getOpposite(), jumpTargetShape) - player.getY();
 
                     float stepHeight;
-                    //? if <1.20 {
+                    //? if <1.19.4 {
                     /*stepHeight = player.stepHeight;
                     *///?} else {
                     stepHeight = player.getStepHeight();
@@ -76,7 +76,7 @@ public class AJFAction {
         int minZ = MathHelper.floor(Math.min(playerBox.minZ, target.getZ()));
         int maxX = MathHelper.floor(Math.max(playerBox.maxX, target.getX()));
 
-        //? if <=1.21.1 {
+        //? if <=1.20.1 {
         /*int maxY = MathHelper.floor(player.getY() + playerBox.getYLength() + jumpHeight);
         *///?} else {
         int maxY = MathHelper.floor(player.getY() + playerBox.getLengthY() + jumpHeight);

@@ -53,3 +53,6 @@
 </div>
 
 ---
+
+# Original by:
+[ CoolMineman ] Augmented Autojump - [Modrinth](https://modrinth.com/mod/augmented-autojump)
