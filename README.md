@@ -48,8 +48,8 @@
 ---
 
 <p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
-<div align="center">
-<video src="https://github.com/user-attachments/assets/39155ea1-8ff9-4a62-89f3-b500a9e6e3e8" width="1000px" alt=""/>
-</div>
+<span><span><span>
+<iframe width="1000" height="458" src="https://www.youtube-nocookie.com/embed/1iQOWvfj82A" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+</span></span></span>
 
 ---
