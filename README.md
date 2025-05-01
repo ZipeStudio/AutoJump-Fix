@@ -40,16 +40,16 @@
 
 ---
 
-<p style="font-size:30px;font-weight:900;color:#fff">💾 Gif showcase</p>
+<p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
 <div align="center">
-<img src="https://raw.githubusercontent.com/ZipeStudio/AutoJumpFix/refs/heads/master/img/showcase.gif" width="1000px" alt=""/>
+<video src="https://github.com/user-attachments/assets/164723c1-c4aa-4563-86ec-b8ed1ab6facb" width="1000px" alt=""/>
 </div>
 
 ---
 
-<p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
+<p style="font-size:30px;font-weight:900;color:#fff">💾 Gif showcase</p>
 <div align="center">
-<video src="https://github.com/user-attachments/assets/164723c1-c4aa-4563-86ec-b8ed1ab6facb" width="1000px" alt=""/>
+<img src="https://raw.githubusercontent.com/ZipeStudio/AutoJumpFix/refs/heads/master/img/showcase.gif" width="1000px" alt=""/>
 </div>
 
 ---
