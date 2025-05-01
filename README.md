@@ -42,7 +42,7 @@
 
 <p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
 <div align="center">
-<video src="https://github.com/user-attachments/assets/164723c1-c4aa-4563-86ec-b8ed1ab6facb" width="1000px" alt="test"/>
+<video src="https://github.com/user-attachments/assets/164723c1-c4aa-4563-86ec-b8ed1ab6facb" width="1000px" alt=""/>
 </div>
 
 ---
