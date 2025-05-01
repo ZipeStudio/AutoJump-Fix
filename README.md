@@ -49,7 +49,7 @@
 
 <p style="font-size:30px;font-weight:900;color:#fff">🎥 Video showcase</p>
 <div align="center">
-<video src="https://www.youtube.com/watch?v=1iQOWvfj82A" width="1000px" alt=""/>
+<video src="https://github.com/user-attachments/assets/39155ea1-8ff9-4a62-89f3-b500a9e6e3e8" width="1000px" alt=""/>
 </div>
 
 ---
