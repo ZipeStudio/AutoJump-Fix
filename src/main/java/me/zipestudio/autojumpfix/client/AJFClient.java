@@ -7,8 +7,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 public class AJFClient implements ClientModInitializer {
 
     @Override
-    public void onInitializeClient() {
-
-    }
+    public void onInitializeClient() {}
 
 }
