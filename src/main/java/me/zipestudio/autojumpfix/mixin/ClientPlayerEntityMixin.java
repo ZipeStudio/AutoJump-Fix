@@ -14,10 +14,10 @@ public abstract class ClientPlayerEntityMixin {
 
 
     //? if <1.21.2 {
-    @Shadow private int ticksToNextAutojump;
-    //?} else {
-    /*@Shadow private int ticksToNextAutoJump;
-    *///?}
+    /*@Shadow private int ticksToNextAutojump;
+    *///?} else {
+    @Shadow private int ticksToNextAutoJump;
+    //?}
 
     /**
      * @author
@@ -28,10 +28,10 @@ public abstract class ClientPlayerEntityMixin {
         if (this.shouldAutoJump()) {
 
             //? if <1.21.2 {
-            this.ticksToNextAutojump =
-            //?} else {
-            /*this.ticksToNextAutoJump =
-            *///?}
+            /*this.ticksToNextAutojump =
+            *///?} else {
+            this.ticksToNextAutoJump =
+            //?}
 
             AJFAction.autojumpPlayer((ClientPlayerEntity) (Object) this, dx, dz) ? 1 : 0;
         }

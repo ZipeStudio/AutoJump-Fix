@@ -2,6 +2,7 @@ package me.zipestudio.autojumpfix.backend;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -22,7 +23,9 @@ public class AJFAction {
         if (player.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
             jumpHeight += (float) (player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1) * 0.75F;
         }
-        World world = player.getEntityWorld();
+
+        World world = getPlayerWorld(player);
+
         double bpt = MathHelper.clamp(Math.sqrt((dx * dx) + (dz * dz)), 0.001, 0.8); // Current speed in blocks per tick; Clamped to reasonable values for aproximating next location
         if (bpt < 0.2) bpt *= 0.7; // Fixes ice + iron bar edge case
         Box currentBox = player.getBoundingBox();
@@ -55,7 +58,7 @@ public class AJFAction {
                     /*stepHeight = player.stepHeight;
                     *///?} else {
                     stepHeight = player.getStepHeight();
-                    //?}
+                     //?}
 
                     if (ydiff > stepHeight + 0.001 && ydiff < jumpHeight) {
                         double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
@@ -83,13 +86,15 @@ public class AJFAction {
          //?}
         int maxZ = MathHelper.floor(Math.max(playerBox.maxZ, target.getZ()));
 
+        World world = getPlayerWorld(player);
+
         BlockPos.Mutable pos = new BlockPos.Mutable();
 
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 for (int k = minZ; k <= maxZ; k++) {
                     pos.set(i, j, k);
-                    VoxelShape blockingShape = player.getEntityWorld().getBlockState(pos).getCollisionShape(player.getEntityWorld(), pos).offset(i, j, k);
+                    VoxelShape blockingShape = world.getBlockState(pos).getCollisionShape(world, pos).offset(i, j, k);
                     if (blockingShape.getMin(Direction.Axis.Y) - player.getY() < jumpHeight + 1.7) return false;
                 }
             }
@@ -118,6 +123,18 @@ public class AJFAction {
             }
         }
         return maxY;
+    }
+
+    public static World getPlayerWorld(ClientPlayerEntity player) {
+
+        World world;
+        //? if >=1.18 {
+        world = player.getWorld();
+        //?} else {
+        /*world = player.getEntityWorld();
+         *///?}
+
+        return world;
     }
 
     public static Direction angleToDirection(double deg) {
