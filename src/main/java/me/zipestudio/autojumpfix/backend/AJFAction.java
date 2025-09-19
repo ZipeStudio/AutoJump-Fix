@@ -56,9 +56,9 @@ public class AJFAction {
                     float stepHeight;
                     //? if <1.19.4 {
                     /*stepHeight = player.stepHeight;
-                    *///?} else {
+                     *///?} else {
                     stepHeight = player.getStepHeight();
-                     //?}
+                    //?}
 
                     if (ydiff > stepHeight + 0.001 && ydiff < jumpHeight) {
                         double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
@@ -81,9 +81,9 @@ public class AJFAction {
 
         //? if <=1.20.1 {
         /*int maxY = MathHelper.floor(player.getY() + playerBox.getYLength() + jumpHeight);
-        *///?} else {
+         *///?} else {
         int maxY = MathHelper.floor(player.getY() + playerBox.getLengthY() + jumpHeight);
-         //?}
+        //?}
         int maxZ = MathHelper.floor(Math.max(playerBox.maxZ, target.getZ()));
 
         World world = getPlayerWorld(player);

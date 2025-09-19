@@ -1,3 +1,2 @@
-v1.0.1:
-- Changed modid
-- Added support for versions 1.21.6-1.21.8
+v1.0.2:
+- Fixed an issue with Minecraft crashing when used with the viaverson/viaversion-plus mod.
