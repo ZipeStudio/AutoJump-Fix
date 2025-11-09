@@ -128,9 +128,11 @@ public class AJFAction {
     public static World getPlayerWorld(ClientPlayerEntity player) {
 
         World world;
-        //? if >=1.18 {
-        world = player.getWorld();
-        //?} else {
+        //? if >=1.21.9 {
+        world = player.getEntityWorld();
+        //?} else if >=1.18 {
+        /*world = player.getWorld();
+        *///?} else {
         /*world = player.getEntityWorld();
          *///?}
 

@@ -1,2 +1,3 @@
-v1.0.2:
-- Fixed an issue with Minecraft crashing when used with the viaverson/viaversion-plus mod.
+v1.0.3:
+- Updated Mossy
+- Added support for versions 1.21.9-1.21.10

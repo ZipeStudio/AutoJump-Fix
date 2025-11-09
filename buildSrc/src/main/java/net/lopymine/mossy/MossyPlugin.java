@@ -40,7 +40,7 @@ public class MossyPlugin implements Plugin<Project> {
 		plugins.apply("dev.kikugie.stonecutter");
 		plugins.apply("fabric-loom");
 		plugins.apply("me.modmuss50.mod-publish-plugin");
-		plugins.apply("dev.kikugie.j52j");
+		plugins.apply("dev.kikugie.fletching-table");
 
 		//
 
@@ -113,6 +113,18 @@ public class MossyPlugin implements Plugin<Project> {
 			task.from(((RemapJarTask) project.getTasks().getByName("remapJar")).getArchiveFile().get());
 			task.into(getRootFile(project, "libs/"));
 		});
+		for (String publishTask : List.of("publishModrinth", "publishCurseforge")) {
+			project.getTasks().named(publishTask).configure((task) -> {
+				task.doLast((t) -> {
+					try {
+						Thread.sleep(1000L);
+					} catch (Exception e) {
+						MossyPlugin.LOGGER.log("Failed to wait before publishing!");
+						e.printStackTrace();
+					}
+				});
+			});
+		}
 	}
 
 	private static void configureProject(@NotNull Project project, MossyPlugin plugin) {
