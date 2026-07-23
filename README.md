@@ -40,7 +40,7 @@
 
 # [Video Showcase](https://www.youtube.com/watch?v=C3_ywpOZj28)
 
-!["AutoJump Fix banner"](https://raw.githubusercontent.com/ZipeStudio/AutoJumpFix/refs/heads/master/img/showcase.gif)
+!["AutoJump Fix banner"](https://raw.githubusercontent.com/ZipeStudio/AutoJumpFix/refs/heads/master/assets/showcase.gif)
 
 !["Support" Title](https://github.com/ZipeStudio/Vault/blob/main/design/mods/main/ZSsupport.png?raw=true)
 
@@ -58,4 +58,6 @@ Yeah, you got it right. Just by advertising, you will support the mod and the cr
 
 !["Licensing" Title](https://github.com/ZipeStudio/Vault/blob/main/design/mods/main/ZSlicensing.png?raw=true)
 
-### [See the original mod repository](https://github.com/ZipeStudio/AutoJump-Fix)
+The license terms for this project are defined in the [LICENSE](https://github.com/ZipeStudio/autojump-fix/blob/master/LICENSE.md) file in this repository. That file always takes precedence over any license shown anywhere else.
+
+### [See the original mod repository](https://github.com/ZipeStudio/autojump-fix)

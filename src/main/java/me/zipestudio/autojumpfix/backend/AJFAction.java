@@ -24,10 +24,10 @@ public class AJFAction {
         float jumpHeight = 1.2F;
 
         //?if >=1.21.5 {
-        /*MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP_BOOST);
-        *///?} else {
-        MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP);
-        //?}
+        MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP_BOOST);
+        //?} else {
+        /*MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP);
+        *///?}
 
         if (mobEffectInstance != null) {
             jumpHeight += (float) (mobEffectInstance.getAmplifier() + 1) * 0.75F;
@@ -64,10 +64,10 @@ public class AJFAction {
 
                     float stepHeight =
                     //? if >=1.19.4 {
-                    /*player.maxUpStep();
-                    *///?} else {
-                    player.maxUpStep;
-                    //?}
+                    player.maxUpStep();
+                    //?} else {
+                    /*player.maxUpStep;
+                    *///?}
 
                     if (ydiff > stepHeight + 0.001 && ydiff < jumpHeight) {
                         double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
@@ -131,10 +131,10 @@ public class AJFAction {
     public static Level getPlayerWorld(LocalPlayer player) {
 
         //? if >=1.20 {
-        /*return player.level();
-        *///?} else {
-        return player.level;
-        //?}
+        return player.level();
+        //?} else {
+        /*return player.level;
+        *///?}
     }
 
     public static Direction angleToDirection(double deg) {

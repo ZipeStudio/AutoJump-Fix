@@ -8,14 +8,12 @@
         "${mod_authors}"
     ],
     "contact": {
-        "discord": "https://discord.com/users/339471364312530945",
-        "telegram": "https://t.me/zipeleaf",
-        "minecraft_server": "https://discord.gg/ZsR6XuTkTX",
-        "discord_team": "https://discord.gg/XmGF7rkkuY"
+        "homepage": "https://modrinth.com/mod/${mod_slug}",
+        "issues": "https://github.com/${github_author}/${mod_slug}"
     },
     "license": "${mod_license}",
     "icon": "icon/icon.png",
-    "environment": "*",
+    "environment": "${fabric_trick_side}",
     "entrypoints": {
         "main": [
             "me.zipestudio.autojumpfix.entrypoint.CommonEntrypoint"
@@ -30,7 +28,7 @@
         "java": ">=${java}",
         "${fabric_api_id}": "*"
     },
-    "accessWidener": "aws/fabric-${minecraft}.accesswidener",
+	"accessWidener": "${fabric_trick_accesswidener_id}",
     "mixins": [
         "${fabric_trick_mixin_configs}"
     ]

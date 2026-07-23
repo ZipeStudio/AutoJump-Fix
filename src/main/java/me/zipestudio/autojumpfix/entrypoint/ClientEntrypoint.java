@@ -2,7 +2,7 @@ package me.zipestudio.autojumpfix.entrypoint;
 
 //? if fabric {
 
-import net.fabricmc.api.ClientModInitializer;
+/*import net.fabricmc.api.ClientModInitializer;
 
 import me.zipestudio.autojumpfix.client.AJFClient;
 
@@ -14,14 +14,14 @@ public class ClientEntrypoint implements ClientModInitializer {
 	}
 }
 
-//?} elif neoforge {
-/*import me.zipestudio.autojumpfix.AJFServer;
+*///?} elif neoforge {
+import me.zipestudio.autojumpfix.AJF;
 import me.zipestudio.autojumpfix.client.AJFClient;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 
-@Mod(value = AJFServer.MOD_ID, dist = Dist.CLIENT)
+@Mod(value = AJF.MOD_ID, dist = Dist.CLIENT)
 public class ClientEntrypoint {
 
 	public ClientEntrypoint(ModContainer container) {
@@ -30,7 +30,7 @@ public class ClientEntrypoint {
 
 }
 
-*///?} elif forge {
+//?} elif forge {
 
 /*import me.zipestudio.autojumpfix.client.AJFClient;
 

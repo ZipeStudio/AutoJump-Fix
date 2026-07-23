@@ -2,7 +2,7 @@ package me.zipestudio.autojumpfix.entrypoint;
 
 //? if fabric {
 
-import me.zipestudio.autojumpfix.AJFServer;
+/*import me.zipestudio.autojumpfix.AJF;
 
 import net.fabricmc.api.ModInitializer;
 
@@ -10,34 +10,34 @@ public class CommonEntrypoint implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		AJFServer.onInitialize();
+		AJF.onInitialize();
 	}
 }
 
-//?} elif neoforge {
-/*import me.zipestudio.autojumpfix.AJFServer;
+*///?} elif neoforge {
+import me.zipestudio.autojumpfix.AJF;
 import net.neoforged.fml.common.Mod;
 
-@Mod(AJFServer.MOD_ID)
+@Mod(AJF.MOD_ID)
 public class CommonEntrypoint {
 
 	public CommonEntrypoint() {
-		AJFServer.onInitialize();
+		AJF.onInitialize();
 	}
 
 }
 
-*///?} elif forge {
-/*import me.zipestudio.autojumpfix.AJFServer;
+//?} elif forge {
+/*import me.zipestudio.autojumpfix.AJF;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod(AJFServer.MOD_ID)
+@Mod(AJF.MOD_ID)
 public class CommonEntrypoint {
 
 	public CommonEntrypoint() {
-		AJFServer.onInitialize();
+		AJF.onInitialize();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientEntrypoint::onInitializeClient);
 	}
 
