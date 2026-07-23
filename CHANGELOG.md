@@ -1,3 +1,4 @@
-v1.0.4:
+v1.0.5:
 ### Changes
-- Ported to 26.1-26.2
+- Fixed issue with jump over 2 blocks (cause by jump boost effect)
+- Backported to Fabric 1.16.5

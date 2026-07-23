@@ -20,7 +20,8 @@ public abstract class LocalPlayerMixin {
     private void onAutoJump(float dx, float dz, CallbackInfo ci) {
 
         if (!this.canAutoJump()) return;
-        this.autoJumpTime = AJFAction.autojumpPlayer((LocalPlayer) (Object) this, dx, dz) ? 1 : 0;
+        float blockJumpFactor = ((EntityInvoker) this).autojumpfix$getBlockJumpFactor();
+        this.autoJumpTime = AJFAction.autojumpPlayer((LocalPlayer) (Object) this, dx, dz, blockJumpFactor) ? 1 : 0;
         ci.cancel();
     }
 

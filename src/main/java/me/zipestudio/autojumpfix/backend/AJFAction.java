@@ -4,9 +4,11 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+//? if >=1.20.5 {
+import net.minecraft.world.entity.ai.attributes.Attributes;
+//?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -15,23 +17,20 @@ public class AJFAction {
 
     private static final double PREDICTION_MULT = 6;
 
+    private static final double JUMP_POWER = 0.42;
+    private static final double JUMP_BOOST_POWER_PER_LEVEL = 0.1;
+    private static final double GRAVITY = 0.08;
+    private static final double DRAG = 0.98;
+    private static final double JUMP_HEIGHT_MARGIN = 0.05;
+    private static final int MAX_JUMP_TICKS = 100;
+
     private AJFAction() {
     }
 
-    public static boolean autojumpPlayer(LocalPlayer player, float dx, float dz) {
+    public static boolean autojumpPlayer(LocalPlayer player, float dx, float dz, float blockJumpFactor) {
 
         if (!player.input.hasForwardImpulse()) return false;
-        float jumpHeight = 1.2F;
-
-        //?if >=1.21.5 {
-        MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP_BOOST);
-        //?} else {
-        /*MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP);
-        *///?}
-
-        if (mobEffectInstance != null) {
-            jumpHeight += (float) (mobEffectInstance.getAmplifier() + 1) * 0.75F;
-        }
+        float jumpHeight = maxJumpHeight(player, blockJumpFactor);
 
         Level world = getPlayerWorld(player);
 
@@ -60,7 +59,8 @@ public class AJFAction {
                     VoxelShape jumpTargetShape = world.getBlockState(pos).getCollisionShape(world, pos).move(i, j, k);
                     if (jumpTargetShape.isEmpty()) continue;
                     double playerAngle = mcDeg2NormalDeg((yawRad * (-180 / Math.PI)));
-                    double ydiff = getCollisionY(angleToDirection(playerAngle).getOpposite(), jumpTargetShape) - player.getY();
+                    double landingY = getCollisionY(angleToDirection(playerAngle).getOpposite(), jumpTargetShape);
+                    double ydiff = landingY - player.getY();
 
                     float stepHeight =
                     //? if >=1.19.4 {
@@ -71,7 +71,7 @@ public class AJFAction {
 
                     if (ydiff > stepHeight + 0.001 && ydiff < jumpHeight) {
                         double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
-                        if (!hasHeadSpace(player, currentAABB, jumpHeight, pos)) continue;
+                        if (!hasHeadSpace(player, currentAABB, landingY, pos)) continue;
                         if (Math.abs(angleDiff(playerToBlockAngle, playerAngle)) < 10 || Math.floorMod((int) playerAngle, 90) < 10 || Math.floorMod((int) playerAngle, 90) > 80) {
                             return true;
                         }
@@ -82,13 +82,44 @@ public class AJFAction {
         return false;
     }
 
-    public static boolean hasHeadSpace(LocalPlayer player, AABB playerAABB, float jumpHeight, BlockPos target) {
+    public static float maxJumpHeight(LocalPlayer player, float blockJumpFactor) {
+
+        //?if >=1.21.5 {
+        MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP_BOOST);
+        //?} else {
+        /*MobEffectInstance mobEffectInstance = player.getEffect(MobEffects.JUMP);
+        *///?}
+
+        //? if >=1.20.5 {
+        double velocity = player.getAttributeValue(Attributes.JUMP_STRENGTH) * blockJumpFactor;
+        double gravity = player.getAttributeValue(Attributes.GRAVITY);
+        //?} else {
+        /*double velocity = JUMP_POWER * blockJumpFactor;
+        double gravity = GRAVITY;
+        *///?}
+
+        if (mobEffectInstance != null) {
+            velocity += (mobEffectInstance.getAmplifier() + 1) * JUMP_BOOST_POWER_PER_LEVEL;
+        }
+
+        double height = 0;
+        for (int tick = 0; velocity > 0 && tick < MAX_JUMP_TICKS; tick++) {
+            height += velocity;
+            velocity = (velocity - gravity) * DRAG;
+        }
+
+        return (float) (height - JUMP_HEIGHT_MARGIN);
+    }
+
+    public static boolean hasHeadSpace(LocalPlayer player, AABB playerAABB, double landingY, BlockPos target) {
+        double headroomY = landingY + playerAABB.getYsize();
+
         int minX = Mth.floor(Math.min(playerAABB.minX, target.getX()));
-        int minY = Mth.floor(player.getY() + jumpHeight);
+        int minY = Mth.floor(playerAABB.maxY);
         int minZ = Mth.floor(Math.min(playerAABB.minZ, target.getZ()));
         int maxX = Mth.floor(Math.max(playerAABB.maxX, target.getX()));
 
-        int maxY = Mth.floor(player.getY() + playerAABB.getYsize() + jumpHeight);
+        int maxY = Mth.floor(headroomY);
         int maxZ = Mth.floor(Math.max(playerAABB.maxZ, target.getZ()));
 
         Level world = getPlayerWorld(player);
@@ -98,7 +129,8 @@ public class AJFAction {
                 for (int k = minZ; k <= maxZ; k++) {
                     pos.set(i, j, k);
                     VoxelShape blockingShape = world.getBlockState(pos).getCollisionShape(world, pos).move(i, j, k);
-                    if (blockingShape.min(Direction.Axis.Y) - player.getY() < jumpHeight + 1.7) return false;
+                    if (blockingShape.isEmpty()) continue;
+                    if (blockingShape.max(Direction.Axis.Y) > landingY && blockingShape.min(Direction.Axis.Y) < headroomY) return false;
                 }
             }
         }
