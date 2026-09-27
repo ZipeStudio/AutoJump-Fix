@@ -13,6 +13,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class AJFAction {
 
     private static final double PREDICTION_MULT = 6;
@@ -43,43 +47,70 @@ public class AJFAction {
         double predictionX = yawDeltaX * bpt * PREDICTION_MULT;
         double predictionZ = yawDeltaZ * bpt * PREDICTION_MULT;
         AABB predictionAABB = currentAABB.move(predictionX, 0, predictionZ);
-        int minX = Mth.floor(predictionAABB.minX);
-        int minY = Mth.floor(predictionAABB.minY);
-        int minZ = Mth.floor(predictionAABB.minZ);
-        int maxX = Mth.floor(predictionAABB.maxX);
-        int maxY = Mth.floor(predictionAABB.maxY);
-        int maxZ = Mth.floor(predictionAABB.maxZ);
+        int minX = Mth.floor(Math.min(currentAABB.minX, predictionAABB.minX));
+        int minY = Mth.floor(Math.min(currentAABB.minY, predictionAABB.minY));
+        int minZ = Mth.floor(Math.min(currentAABB.minZ, predictionAABB.minZ));
+        int maxX = Mth.floor(Math.max(currentAABB.maxX, predictionAABB.maxX));
+        int maxY = Mth.floor(Math.max(currentAABB.maxY, predictionAABB.maxY));
+        int maxZ = Mth.floor(Math.max(currentAABB.maxZ, predictionAABB.maxZ));
+
+        double playerAngle = mcDeg2NormalDeg((yawRad * (-180 / Math.PI)));
+        boolean axisAligned = Math.floorMod((int) playerAngle, 90) < 10 || Math.floorMod((int) playerAngle, 90) > 80;
+
+        float stepHeight =
+        //? if >=1.19.4 {
+        player.maxUpStep();
+        //?} else {
+        /*player.maxUpStep;
+        *///?}
+
+        List<int[]> columns = new ArrayList<>();
+        for (int i = minX; i <= maxX; i++) {
+            for (int k = minZ; k <= maxZ; k++) {
+                double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
+                if (!axisAligned && Math.abs(angleDiff(playerToBlockAngle, playerAngle)) >= 10) continue;
+                columns.add(new int[]{i, k});
+            }
+        }
+        columns.sort(Comparator.comparingDouble(c -> squaredHorizontalDistance(player, c[0], c[1])));
 
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        double climbedY = player.getY();
 
-        for (int i = minX; i <= maxX; i++) {
+        for (int[] column : columns) {
+            int i = column[0];
+            int k = column[1];
+
+            List<Double> surfaces = new ArrayList<>();
             for (int j = minY; j <= maxY; j++) {
-                for (int k = minZ; k <= maxZ; k++) {
-                    pos.set(i, j, k);
-                    VoxelShape jumpTargetShape = world.getBlockState(pos).getCollisionShape(world, pos).move(i, j, k);
-                    if (jumpTargetShape.isEmpty()) continue;
-                    double playerAngle = mcDeg2NormalDeg((yawRad * (-180 / Math.PI)));
-                    double landingY = getCollisionY(angleToDirection(playerAngle).getOpposite(), jumpTargetShape);
-                    double ydiff = landingY - player.getY();
+                pos.set(i, j, k);
+                VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos).move(i, j, k);
+                if (shape.isEmpty()) continue;
+                for (AABB aabb : shape.toAabbs()) surfaces.add(aabb.maxY);
+            }
+            if (surfaces.isEmpty()) continue;
+            surfaces.sort(Double::compare);
 
-                    float stepHeight =
-                    //? if >=1.19.4 {
-                    player.maxUpStep();
-                    //?} else {
-                    /*player.maxUpStep;
-                    *///?}
-
-                    if (ydiff > stepHeight + 0.001 && ydiff < jumpHeight) {
-                        double playerToBlockAngle = calcAngle(player.getX(), player.getZ(), i + 0.5, k + 0.5);
-                        if (!hasHeadSpace(player, currentAABB, landingY, pos)) continue;
-                        if (Math.abs(angleDiff(playerToBlockAngle, playerAngle)) < 10 || Math.floorMod((int) playerAngle, 90) < 10 || Math.floorMod((int) playerAngle, 90) > 80) {
-                            return true;
-                        }
-                    }
+            pos.set(i, minY, k);
+            for (double surfaceY : surfaces) {
+                double ydiff = surfaceY - climbedY;
+                if (ydiff <= 0.001) continue;
+                if (ydiff >= jumpHeight) break;
+                if (!hasHeadSpace(player, currentAABB, surfaceY, pos)) continue;
+                if (ydiff <= stepHeight + 0.001) {
+                    climbedY = surfaceY;
+                    continue;
                 }
+                return true;
             }
         }
         return false;
+    }
+
+    public static double squaredHorizontalDistance(LocalPlayer player, int x, int z) {
+        double dx = (x + 0.5) - player.getX();
+        double dz = (z + 0.5) - player.getZ();
+        return (dx * dx) + (dz * dz);
     }
 
     public static float maxJumpHeight(LocalPlayer player, float blockJumpFactor) {
@@ -138,28 +169,6 @@ public class AJFAction {
         return true;
     }
 
-    public static double getCollisionY(Direction side, VoxelShape shape) {
-        boolean positiveDirection = side.getStepX() + side.getStepZ() > 0;
-        double maxDir = Double.NaN;
-        double maxY = Double.NaN;
-        for (AABB aabb : shape.toAabbs()) {
-            if (aabb.maxY > maxY || Double.isNaN(maxDir)) {
-                if (positiveDirection) {
-                    if (Double.isNaN(maxDir) || aabb.max(side.getAxis()) >= maxDir) {
-                        maxDir = aabb.max(side.getAxis());
-                        maxY = aabb.maxY;
-                    }
-                } else {
-                    if (Double.isNaN(maxDir) || aabb.min(side.getAxis()) <= maxDir) {
-                        maxDir = aabb.min(side.getAxis());
-                        maxY = aabb.maxY;
-                    }
-                }
-            }
-        }
-        return maxY;
-    }
-
     public static Level getPlayerWorld(LocalPlayer player) {
 
         //? if >=1.20 {
@@ -167,20 +176,6 @@ public class AJFAction {
         //?} else {
         /*return player.level;
         *///?}
-    }
-
-    public static Direction angleToDirection(double deg) {
-        if (deg > 0 && deg < 45) {
-            return Direction.NORTH;
-        } else if (deg >= 45 && deg < 135) {
-            return Direction.EAST;
-        } else if (deg >= 135 && deg < 225) {
-            return Direction.SOUTH;
-        } else if (deg >= 225 && deg < 315) {
-            return Direction.WEST;
-        } else {
-            return Direction.NORTH;
-        }
     }
 
     public static double mcDeg2NormalDeg(double a) {

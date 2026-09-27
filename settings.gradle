@@ -1,5 +1,8 @@
 pluginManagement {
 	repositories {
+		mavenCentral()
+		gradlePluginPortal()
+		mavenLocal()
 		maven {
 			name "Fabric"
 			url "https://maven.fabricmc.net/"
@@ -13,7 +16,7 @@ pluginManagement {
 			url "https://maven.kikugie.dev/releases"
 		}
 		maven {
-			name "Mossy Projects"
+			name "Mossy Projects Releases"
 			url "https://maven.lopymine.net/releases"
 		}
 		maven {
@@ -21,16 +24,9 @@ pluginManagement {
 			url "https://maven.lopymine.net/snapshots"
 		}
 		maven {
-			name "NeoForged"
+			name "NeoForge Releases"
 			url "https://maven.neoforged.net/releases"
 		}
-		maven {
-			name "MinecraftForge"
-			url "https://maven.minecraftforge.net/"
-		}
-		mavenLocal()
-		mavenCentral()
-		gradlePluginPortal()
 	}
 }
 

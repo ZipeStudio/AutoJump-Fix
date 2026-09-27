@@ -25,7 +25,7 @@
           <a href="https://t.me/zipeleaf">
             <img src="https://raw.githubusercontent.com/ZipeStudio/Vault/refs/heads/main/design/mods/main/telegram.png" title="Telegram channel">
           </a>
-          <a href="https://ko-fi.com/zipestudio/tip">
+          <a href="https://www.patreon.com/cw/ZipeStudio/membership">
             <img src="https://raw.githubusercontent.com/ZipeStudio/Vault/refs/heads/main/design/mods/main/support.png" title="Support me (thx)">
           </a>
         </div>

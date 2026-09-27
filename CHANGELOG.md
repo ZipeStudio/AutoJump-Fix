@@ -1,4 +1,5 @@
-v1.0.5:
+v1.0.6:
 ### Changes
-- Fixed issue with jump over 2 blocks (cause by jump boost effect)
-- Backported to Fabric 1.16.5
+- Ported to 26.3 (Fabric and NeoForge)
+### Fixes
+- Fixed auto-jump triggering on stairs and slabs instead of stepping up
